@@ -1,0 +1,22 @@
+{
+    "name": "usmonaliyev/postgres-partitioner",
+    "description": "This package helps to make existing table as partition.",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Usmonaliyev\\PostgresPartitioner\\": "src/"
+        },
+        "files": [
+            "./config/app.php"
+        ]
+    },
+    "authors": [
+        {
+            "name": "Temur5319436",
+            "email": "temur5319436@gmail.com"
+        }
+    ],
+    "require-dev": {
+        "symfony/var-dumper": "^7.0"
+    }
+}
