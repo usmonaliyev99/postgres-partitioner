@@ -35,7 +35,7 @@ It currently supports range partitioning based on a specified column.
 3. Create and configure the database credentials in `.env`:
 
     ```dotenv
-    DB_HOST=
+    DB_HOST=127.0.0.1
     DB_PORT=5432
     DB_NAME=
     DB_USER=
