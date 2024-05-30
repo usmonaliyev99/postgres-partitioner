@@ -4,11 +4,21 @@ Postgres Partitioner is a PHP-based tool that helps to generate partition tables
 
 It currently supports range partitioning based on a specified column.
 
+## Explanation
+
+![Image](https://marekhudyma.com/assets/2018-08-01-postgreSQL-10-partitioning/horizontal.png)
+
 ## Features
 
 - Automatically create range partitions for a specified table and column.
 - Easy configuration via a configuration file.
 - Simple command-line interface for executing partitioning tasks.
+
+## Questions
+
+- [Documentation: 16: 5.11. Table Partitioning](https://www.postgresql.org/docs/current/ddl-partitioning.html)
+- [How to use table partitioning to scale PostgreSQL - EDB](https://www.enterprisedb.com/postgres-tutorials/how-use-table-partitioning-scale-postgresql)
+- [What is partitioning?](https://www.postgresql.fastware.com/postgresql-insider-prt-ove)
 
 ## Requirements
 
