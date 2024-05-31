@@ -12,11 +12,12 @@
     },
     "authors": [
         {
-            "name": "Temur5319436",
-            "email": "temur5319436@gmail.com"
+            "name": "usmonaliyev99",
+            "email": "t.usmonaliyev99@gmail.com"
         }
     ],
     "require-dev": {
+        "php": "^7.4|^8.1",
         "symfony/var-dumper": "^7.0"
     }
 }
