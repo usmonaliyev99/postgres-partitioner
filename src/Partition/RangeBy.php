@@ -25,13 +25,6 @@ class RangeBy extends Partition
     protected string $format;
 
     /**
-     * List of partitions
-     * @var array<PartitionPart>
-     */
-    protected array $partitions;
-
-
-    /**
      * @param string $table
      * @param string $column
      * @param string<MONTH|YEAR> $format
@@ -46,6 +39,9 @@ class RangeBy extends Partition
         $this->buildPartitions();
     }
 
+    /**
+     * @throws Exception
+     */
     private function loadRange(): void
     {
         $min = $this->db->select("SELECT MIN($this->column) AS min FROM $this->table;");
@@ -111,17 +107,5 @@ class RangeBy extends Partition
         info('Partitions are defined: ' . count($parts));
 
         return $parts;
-    }
-
-    public function execute(): void
-    {
-        $this->createMainPartitionTable();
-
-        $this->createPartitionTables();
-    }
-
-    private function createPartitionTables(): void
-    {
-        done("Other partition tables are creating...");
     }
 }

@@ -7,3 +7,5 @@ $table = arg('table', 1);
 $column = arg('column', 2);
 
 $rangeBy = new \Usmonaliyev\PostgresPartitioner\Partition\RangeBy($table, $column, 'YEAR');
+
+$rangeBy->execute();

@@ -16,6 +16,16 @@ $GLOBALS['config'] = [
 
 ];
 
+function base(): string
+{
+    return str_replace( '/config', '', __DIR__);
+}
+
+function src(): string
+{
+    return str_replace( 'config', 'src', __DIR__);
+}
+
 function config(string $key)
 {
     return $GLOBALS['config'][$key] ?? null;
@@ -37,7 +47,7 @@ function arg(string $key, int $position)
 
 function info(string $message): void
 {
-    echo "ℹ️ \033[32m$message\033[0m\n";
+    echo "\033[32m$message\033[0m\n";
 }
 
 function done(string $message): void

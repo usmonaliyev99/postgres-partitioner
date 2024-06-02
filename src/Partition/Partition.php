@@ -3,10 +3,13 @@
 namespace Usmonaliyev\PostgresPartitioner\Partition;
 
 use Usmonaliyev\PostgresPartitioner\Database\DB;
+use Usmonaliyev\PostgresPartitioner\Swap\Swapper;
 
 abstract class Partition
 {
     protected DB $db;
+
+    protected Swapper $swapper;
 
     /**
      * All columns of target table
@@ -28,12 +31,20 @@ abstract class Partition
 
     protected string $partitionTableSql;
 
-    public function __construct($table, $column)
+    /**
+     * List of partitions
+     * @var array<PartitionPart>
+     */
+    protected array $partitions;
+
+    public function __construct(string $table, string $column)
     {
         $this->table = $table;
         $this->column = $column;
 
         $this->db = new DB();
+
+        $this->swapper = new Swapper($this->db, $this->table);
 
         $this->loadColumns();
         $this->build();
@@ -93,8 +104,28 @@ abstract class Partition
         return $this->db->run($this->partitionTableSql);
     }
 
-    protected function suffix(): string
+    /**
+     * Generate main partition table with all parts
+     * @return void
+     */
+    public function execute(): void
     {
-        return 'partitions';
+        $this->swapper->renameTargetTable();
+
+        $this->createMainPartitionTable();
+
+        $this->createPartitionTables();
+
+        $this->swapper->createForeignKeys();
+    }
+
+    protected function createPartitionTables(): void
+    {
+        array_map(
+            fn($partition) => $this->db->run($partition->getSql()),
+            $this->partitions
+        );
+
+        done("Other partition tables are creating...");
     }
 }
