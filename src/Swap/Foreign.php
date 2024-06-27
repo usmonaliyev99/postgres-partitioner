@@ -36,4 +36,14 @@ class Foreign
 
         return $this->db->run($sql);
     }
+
+    public function rename(string $prefix): bool|int
+    {
+        $newConstraintName = str_replace($this->tableName . '_', '', $this->constraintName);
+        $newConstraintName = "{$this->tableName}_{$prefix}{$newConstraintName}";
+
+        $sql = "ALTER TABLE $this->tableName RENAME CONSTRAINT $this->constraintName TO $newConstraintName;";
+
+        return $this->db->run($sql);
+    }
 }

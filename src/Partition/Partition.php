@@ -97,11 +97,16 @@ abstract class Partition
         info('Sql of main partition table is generated!');
     }
 
-    protected function createMainPartitionTable(): bool|int
+    protected function createMainPartitionTable(): void
     {
         done('Main partition table is creating...');
 
-        return $this->db->run($this->partitionTableSql);
+        $this->db->run($this->partitionTableSql);
+
+        $primaryKey = "ALTER TABLE $this->table ADD PRIMARY KEY (id, $this->column);";
+        $primaryKey .= "CREATE INDEX {$this->table}_{$this->column}_index ON $this->table ({$this->column});";
+
+        $this->db->run($primaryKey);
     }
 
     /**
@@ -110,6 +115,7 @@ abstract class Partition
      */
     public function execute(): void
     {
+        $this->swapper->dropForeignKeys();
         $this->swapper->renameTargetTable();
 
         $this->createMainPartitionTable();
@@ -122,7 +128,7 @@ abstract class Partition
     protected function createPartitionTables(): void
     {
         array_map(
-            fn($partition) => $this->db->run($partition->getSql()),
+            fn(PartitionPart $partition) => $this->db->run($partition->getSql()),
             $this->partitions
         );
 

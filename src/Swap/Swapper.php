@@ -2,7 +2,6 @@
 
 namespace Usmonaliyev\PostgresPartitioner\Swap;
 
-use PDO;
 use Usmonaliyev\PostgresPartitioner\Database\DB;
 
 class Swapper
@@ -54,6 +53,13 @@ class Swapper
         info('Foreign keys are dropped.');
     }
 
+    public function renameForeignKeys(): void
+    {
+        array_map(fn(Foreign $foreign) => $foreign->rename($this->prefix), $this->foreignKeys);
+
+        info('Foreign keys are renamed.');
+    }
+
     /**
      * Create foreign keys which are dropped
      * @return void
@@ -72,7 +78,6 @@ class Swapper
     public function renameTargetTable(): void
     {
         $sql = "ALTER TABLE $this->table RENAME TO {$this->prefix}{$this->table};";
-
         $this->db->run($sql);
 
         info('Target table is renamed: ' . $this->table . ' => ' . $this->prefix . $this->table);
